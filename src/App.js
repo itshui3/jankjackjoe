@@ -10,7 +10,7 @@ import {
     initGame,
     GAME_ACTION,
     gameReducer
-} from './components/Board/_gameReducer'
+} from './components/Board/_gameReducer.js'
 
 function App() {
 
@@ -21,9 +21,15 @@ return (
 <div className="outermost_cont">
     <div className='centering_wrapper'>
 
-    <Header />
+    <Header 
+    gameState={gameState}
+    dispatchGame={dispatchGame}
+    />
 
-    <Board />
+    <Board 
+    gameState={gameState}
+    dispatchGame={dispatchGame}
+    />
 
     </div>
 </div>

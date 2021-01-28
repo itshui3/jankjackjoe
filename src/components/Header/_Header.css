@@ -18,4 +18,10 @@
 
 .header_info {
     cursor: pointer;
+    font-weight: 900;
+}
+
+.info_text_btn {
+    /* cursor: pointer; */
+    
 }

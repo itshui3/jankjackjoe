@@ -18,7 +18,7 @@ import {
     boardReducer
 } from './_boardReducer'
 
-import { GAME_ACTION } from './components/Board/_gameReducer'
+import { GAME_ACTION } from './_gameReducer'
 
 const {
     NEXT_PLAYER,
@@ -39,10 +39,13 @@ function Board({ gameState, dispatchGame }) {
     // check if game should end
     useEffect(() => {
         // determine if 1s or 2s have 3 in a row
-        dispatchGame({
-            type: NEXT_PLAYER,
-            payload: { playerNum: gameState.turn === 1 ? 2 : 1 }
-        })
+        if(gameState.turn) {
+            dispatchGame({
+                type: NEXT_PLAYER,
+                payload: { playerNum: gameState.turn === 1 ? 2 : 1 }
+            })
+        }
+
 
     }, [boardState])
 
@@ -63,11 +66,13 @@ boardState.board.map((row, r_idx) => (
             style={cellBorder(r_idx, c_idx)}
             key={c_idx}
             onClick={() => {
-
-                dispatchBoard({ 
-                    type: PLACE, 
-                    payload: { playerNum: gameState.turn, coords: [r_idx, c_idx] }
-                })
+                
+                if (gameState.turn && !gameState.winner) {
+                    dispatchBoard({ 
+                        type: PLACE, 
+                        payload: { playerNum: gameState.turn, coords: [r_idx, c_idx] }
+                    })
+                }
 
             }}
             >
