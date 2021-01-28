@@ -1,0 +1,25 @@
+
+.header_cont {
+    height: 15%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.header_gameTitle {
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.header_info {
+    cursor: pointer;
+    font-weight: 900;
+}
+
+.info_text_btn {
+    /* cursor: pointer; */
+    
+}
