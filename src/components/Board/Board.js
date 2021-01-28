@@ -19,6 +19,7 @@ import {
 } from './_boardReducer'
 
 import { GAME_ACTION } from './_gameReducer'
+import { determineWinner } from './_determineWinner.js'
 
 const {
     NEXT_PLAYER,
@@ -40,6 +41,14 @@ function Board({ gameState, dispatchGame }) {
     useEffect(() => {
         // determine if 1s or 2s have 3 in a row
         if(gameState.turn) {
+            
+            // check for winner
+            // fn(board): 0, 1, 2 - 0 => game continues, 1 => player 1 wins, 2 => 
+            dispatchGame({
+                type: WINNER,
+                payload: { playerNum: determineWinner(boardState.board) }
+            })
+
             dispatchGame({
                 type: NEXT_PLAYER,
                 payload: { playerNum: gameState.turn === 1 ? 2 : 1 }
@@ -66,7 +75,7 @@ boardState.board.map((row, r_idx) => (
             style={cellBorder(r_idx, c_idx)}
             key={c_idx}
             onClick={() => {
-                
+
                 if (gameState.turn && !gameState.winner) {
                     dispatchBoard({ 
                         type: PLACE, 
