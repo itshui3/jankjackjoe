@@ -20,11 +20,11 @@ const { PLACE, TURN, RESET } = GRID_ACTION
 function App() {
 
     const [gridState, gridDispatch] = useReducer(gridReducer, gridInit)
-    const [resetGrid, setResetGrid] = useState(0)
+    const [winner, setWinner] = useState(0)
 
     useEffect(() => {
         // check for winner whenever grid state changes
-        setResetGrid( determineWinner(resetGrid) )
+        setWinner( determineWinner(gridState.grid) )
 
     }, [gridState.grid])
 
@@ -44,7 +44,7 @@ return (
     turn={ gridState.playerTurn } 
     dispatchInitTurn={ () => gridDispatch({ type: TURN }) }
 
-    resetGrid={resetGrid}
+    winner={winner}
     dispatchResetGrid={() => gridDispatch({ type: RESET })} />
 
     <hr style={{

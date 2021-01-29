@@ -4,13 +4,7 @@ import React, { useRef, useEffect } from 'react'
 
 import Typewriter from 'typewriter-effect'
 
-// import {
-//     GRID_ACTION
-// } from '../gridReducer'
-
-// const { TURN } = GRID_ACTION
-
-function Header({ turn, dispatchInitTurn, resetGrid, dispatchResetGrid }) {
+function Header({ turn, dispatchInitTurn, winner, dispatchResetGrid }) {
 // when turn changes, useEffect should deleteAll() => paste playerTurn text
 
     const typeRef = useRef()
@@ -29,13 +23,14 @@ function Header({ turn, dispatchInitTurn, resetGrid, dispatchResetGrid }) {
 
     useEffect(() => {
 
-        if (resetGrid) {
-            dispatchResetGrid()
-            // insert typewriter buffer
+        if (winner) {
+            console.log('winner in Header: ', winner)
             dispatchInitTurn()
+            // insert typewriter buffer with 'winner' interpolated
+            dispatchResetGrid()
         }
-        
-    }, [resetGrid])
+
+    }, [winner])
 
 return (
 <>
