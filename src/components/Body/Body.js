@@ -9,7 +9,7 @@ import {
 
 import { buildCellBorder } from './buildCellBorder'
 
-function Body({ grid, playerTurn, dispatchPlace }) {
+function Body({ playerTurn, grid, dispatchPlace }) {
 
 return (
 <>

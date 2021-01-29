@@ -23,7 +23,7 @@ function App() {
     const [resetGrid, setResetGrid] = useState(0)
 
     useEffect(() => {
-
+        // check for winner whenever grid state changes
         setResetGrid( determineWinner(resetGrid) )
 
     }, [gridState.grid])
@@ -36,15 +36,26 @@ return (
 <div className='content_cont'>
 
     <Header 
+    // we rely on Header to dispatchTurn on: 
+    // [0] gameStart - caused by init, called by typewriter init cb
+    // [1] gameEnd - caused by validation passed in by useEffect on App.js level
+    
+    // header receives turn in order to type it to user
     turn={ gridState.playerTurn } 
-    dispatchTurn={ (nextPlayer) => gridDispatch({ type: TURN, payload: nextPlayer })} 
+    dispatchInitTurn={ () => gridDispatch({ type: TURN }) }
+
+    resetGrid={resetGrid}
     dispatchResetGrid={() => gridDispatch({ type: RESET })} />
+
+    <hr style={{
+        width: '90%',
+        opacity: '.5'
+    }} />
 
     <Body 
     playerTurn={ gridState.playerTurn } 
     grid={ gridState.grid } 
-    dispatchPlace={ (placeObj) => gridDispatch({ type: PLACE, payload: placeObj }) } 
-    dispatchTurn={ (nextPlayer) => gridDispatch({ type: TURN, payload: nextPlayer }) } />
+    dispatchPlace={ (placeObj) => gridDispatch({ type: PLACE, payload: placeObj }) } />
 
 </div>
 </div>

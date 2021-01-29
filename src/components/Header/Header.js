@@ -10,7 +10,7 @@ import Typewriter from 'typewriter-effect'
 
 // const { TURN } = GRID_ACTION
 
-function Header({ turn, dispatchTurn, resetGrid, dispatchResetGrid }) {
+function Header({ turn, dispatchInitTurn, resetGrid, dispatchResetGrid }) {
 // when turn changes, useEffect should deleteAll() => paste playerTurn text
 
     const typeRef = useRef()
@@ -28,11 +28,13 @@ function Header({ turn, dispatchTurn, resetGrid, dispatchResetGrid }) {
     }, [turn])
 
     useEffect(() => {
+
         if (resetGrid) {
-            // do typewriter thing, then reset
             dispatchResetGrid()
-            dispatchTurn(turn)
+            // insert typewriter buffer
+            dispatchInitTurn()
         }
+        
     }, [resetGrid])
 
 return (
@@ -62,7 +64,7 @@ onInit={(typewriter) => {
 
     .callFunction(
         // startGame logic
-        () => dispatchTurn(turn)
+        () => dispatchInitTurn()
     )
 
 }}

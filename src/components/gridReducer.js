@@ -43,15 +43,12 @@ const gridReducer = (state, { type, payload }) => {
             })
             
         case GRID_ACTION.TURN:
-
+            // build TURN such that it is called on init
+            // we should randomly select a player and give them the first turn
             return produce(state, draft => {
-                if (payload === 0) {
-                    draft.playerTurn = 1
-                } else if (payload === 1) {
-                    draft.playerTurn = 2
-                } else if (payload === 2) {
-                    draft.playerTurn = 1
-                }
+
+                draft.playerTurn = Math.ceil(Math.random() * 2)
+
             })
 
         case GRID_ACTION.RESET:
@@ -62,6 +59,7 @@ const gridReducer = (state, { type, payload }) => {
                     [0, 0, 0],
                     [0, 0, 0],
                 ]
+                draft.playerTurn = 0
             })
 
         default: 

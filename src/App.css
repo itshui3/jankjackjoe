@@ -9,6 +9,8 @@
 }
 
 .content_cont {
+    border: 1px solid black;
+
     width: 80%;
     height: 90%;
 
