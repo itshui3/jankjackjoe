@@ -4,29 +4,39 @@ import React, { useEffect, useReducer, useState } from 'react'
 
 import {
     Header,
-    Body
+    Body,
 } from './components'
 
 import {
     gridInit,
     gridReducer,
-    GRID_ACTION
+    GRID_ACTION,
 } from './components/gridReducer'
 
 import { determineWinner } from './components/determineWinner'
 
-const { PLACE, TURN, RESET } = GRID_ACTION
+const { PLACE, TURN, RESETGRID, WINNER } = GRID_ACTION
 
 function App() {
 
     const [gridState, gridDispatch] = useReducer(gridReducer, gridInit)
-    const [winner, setWinner] = useState(0)
 
     useEffect(() => {
-        // check for winner whenever grid state changes
-        setWinner( determineWinner(gridState.grid) )
 
-    }, [gridState.grid])
+        // initGame at 'start'
+        if (!gridState.winner && !gridState.playerTurn) {
+        // yeah sure, but handle this in Header
+        // gridDispatch({ type: TURN }) 
+        }
+
+        else if (gridState.winner && gridState.playerTurn) {
+        // we handle this within Header
+        }
+
+        // check for winner whenever grid state changes
+        gridDispatch({ type: WINNER, payload: determineWinner(gridState.grid) })
+
+    }, [gridState])
 
 return (
 <>
@@ -41,11 +51,10 @@ return (
     // [1] gameEnd - caused by validation passed in by useEffect on App.js level
     
     // header receives turn in order to type it to user
-    turn={ gridState.playerTurn } 
-    dispatchInitTurn={ () => gridDispatch({ type: TURN }) }
-
-    winner={winner}
-    dispatchResetGrid={() => gridDispatch({ type: RESET })} />
+    dispatchInitTurn={() => gridDispatch({ type: TURN })}
+    dispatchResetGrid={() => gridDispatch({ type: RESETGRID })}
+    gridState={gridState}
+    />
 
     <hr style={{
         width: '90%',
@@ -55,6 +64,7 @@ return (
     <Body 
     playerTurn={ gridState.playerTurn } 
     grid={ gridState.grid } 
+    // dispatch place also sets to the next player's turn
     dispatchPlace={ (placeObj) => gridDispatch({ type: PLACE, payload: placeObj }) } />
 
 </div>

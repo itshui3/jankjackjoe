@@ -1,69 +1,69 @@
 
 import './_Header.css'
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import Typewriter from 'typewriter-effect'
 
-function Header({ turn, dispatchInitTurn, winner, dispatchResetGrid }) {
+import GameEnd from './GameEnd/GameEnd'
+import GameStart from './GameStart/GameStart'
+import PlayerTurn1 from './PlayerTurn1/PlayerTurn1'
+import PlayerTurn2 from './PlayerTurn2/PlayerTurn2'
+
+function Header({
+    gridState,
+    // turn, 
+    dispatchInitTurn, 
+    // winner, 
+    dispatchResetGrid, 
+    // dispatchResetTurn, 
+}) { 
 // when turn changes, useEffect should deleteAll() => paste playerTurn text
-
-    const typeRef = useRef()
-
-    useEffect(() => {
-        console.log('in Header typeRef', typeRef)
-        console.log('in Header turn', turn)
-
-        // for some reason this isn't being called
-        if (typeRef.current) {
-            typeRef.current
-            .pasteString(`Player ${turn}'s Turn`)
-        }
-        // [idea] we can loop '...', then stop this effect perhaps
-    }, [turn])
-
-    useEffect(() => {
-
-        if (winner) {
-            console.log('winner in Header: ', winner)
-            dispatchInitTurn()
-            // insert typewriter buffer with 'winner' interpolated
-            dispatchResetGrid()
-        }
-
-    }, [winner])
 
 return (
 <>
 <div className='header_cont'>
 <h1 className='header_title'>Tic Tac Toe</h1>
 
-<Typewriter 
-onInit={(typewriter) => {
+{/* 
+// HoF API
+// [0] - Start Game, with the dots
+// [chains into dispatchInitTurn]
+// [1] - When there's a winner
+// [chains into dispatchResetTurn && dispatchResetGrid() && dispatchInitTurn()]
+// [2] - When turns change [no need to affect state]
 
-    // give react control of typewriter
-    typeRef.current = typewriter
+// !gridState.winner && gridState.playerTurn === 1
+// express playerTurn 1
 
-    typewriter.start()
+// !gridState.winner && gridState.playerTurn === 2
+// express playerTurn 2
 
-    .pasteString('Game Starting')
+// !gridState.winner && !gridState.playerTurn
+// express gameStart [therefore dispatch startGame]
 
-    .typeString('...')
-    .deleteChars(3)
-    .typeString('...')
-    .deleteChars(3)
-    .typeString('...')
-    .deleteChars(3)
+// gridState.winner && gridState.playerTurn
+// express winner [therefore dispatch resetGame]
+ */}
 
-    .changeDeleteSpeed(1)
-    .deleteAll()
-
-    .callFunction(
-        // startGame logic
-        () => dispatchInitTurn()
-    )
-
-}}
-/>
+{
+    gridState.winner && gridState.playerTurn
+    ?
+    (<GameEnd winner={gridState.winner} dispatchResetGrid={dispatchResetGrid} />)
+    :
+    !gridState.winner && !gridState.playerTurn
+    ?
+    (<GameStart dispatchInitTurn={dispatchInitTurn} />)
+    :
+    !gridState.winner && gridState.playerTurn === 1
+    ?
+    (<PlayerTurn1 playerTurn={gridState.playerTurn} />)
+    :
+    !gridState.winner && gridState.playerTurn === 2
+    ?
+    (<PlayerTurn2 playerTurn={gridState.playerTurn} />)
+    :
+    null
+}
 
 </div>
 </>
