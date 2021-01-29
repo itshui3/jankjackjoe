@@ -4,7 +4,10 @@ import React from 'react'
 function Cross() {
 return (
 <>
-    x
+    <svg width="95%" height="95%">
+        <line></line>
+        <line></line>
+    </svg>
 </>
 )
 }

@@ -2,6 +2,11 @@
 import './_Body.css'
 import React, { useEffect } from 'react'
 
+import {
+    Cross,
+    Circle
+} from './SVG'
+
 import { buildCellBorder } from './buildCellBorder'
 
 function Body({ grid, playerTurn, dispatchPlace }) {
@@ -20,7 +25,14 @@ grid.map((row, r_idx) => (
 
             onClick={() => dispatchPlace({ coords:[r_idx, c_idx], playerTurn: playerTurn })}
             >
-                {cell}
+            {
+                cell === 1 ?
+                (<Circle />)
+                : cell === 2 ?
+                (<Cross />) 
+                :
+                null
+            }
             </div>
         ))
     }
