@@ -11,7 +11,7 @@ function PlayerTurn({playerTurn}) {
 return (
 <>
     <Typewriter onInit={(typewriter) => {
-        typewriter.start()
+        typewriter.start().changeDelay(100).changeDeleteSpeed(100)
         .deleteAll()
         
         .typeString(`Player ${playerTurn}\'s Turn`) 

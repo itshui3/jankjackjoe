@@ -7,7 +7,7 @@ function GameEnd({dispatchResetGrid, winner}) {
 return (
 <>
     <Typewriter onInit={(typewriter) => {
-        typewriter.start()
+        typewriter.start().changeDelay(100).changeDeleteSpeed(100)
         .deleteAll()
         .typeString(`Congratulations Player ${winner}! You win!`)
         

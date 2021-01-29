@@ -7,7 +7,7 @@ function GameStart({ dispatchInitTurn }) {
 return (
 <>
     <Typewriter onInit={(typewriter) => {
-        typewriter.start().changeDeleteSpeed(1).changeDelay(100)
+        typewriter.start().changeDelay(100).changeDeleteSpeed(100)
         .deleteAll()
         .typeString('Loading Game')
     
