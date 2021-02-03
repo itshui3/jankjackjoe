@@ -7,13 +7,15 @@ import {
     Header
 } from './components'
 
-const boardInit = [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0],
-]
+import {
+    determinePhase,
+    boardInit,
+    rightBorder,
+    bottomBorder,
+    P,
+} from './gamePieces'
 
-/*
+/* P
 '' - game not started
 '1' - player 1's turn
 '2' - player 2's turn
@@ -21,18 +23,16 @@ const boardInit = [
 'Player 2' - game ended with player 2 winning
 */
 
-const rightBorder = {
-    borderRight: '1px solid lightslategrey'
-}
-
-const bottomBorder = {
-    borderBottom: '1px solid lightslategrey'
-}
 
 function App() {
 
     const [phase, setPhase] = useState('')
     const [board, setBoard] = useState(boardInit)
+
+    // useEffect(() => {
+    //     // how do I determine if a move was actually made or not? 
+    //     setPhase( determinePhase(board) )
+    // }, [board])
 
     const buildTileBorder = (r_idx, t_idx) => {
 
@@ -51,14 +51,6 @@ function App() {
     }
 
     const attemptPlacement = (row, tile) => {
-
-        const P = {
-            init: '',
-            p1: '1',
-            p2: '2',
-            p1w: 'Player 1',
-            p2w: 'Player 2',
-        }
         // wrong phase
         if (!phase || phase === P.p1w || phase === P.p2w) { return }
         // tile taken
@@ -67,6 +59,7 @@ function App() {
         setBoard((board) => {
             return produce(board, draft => {
                 draft[row][tile] = phase
+                setPhase( determinePhase(draft, phase) )
             })
         })
     }
@@ -90,6 +83,8 @@ phase={phase}
             style={buildTileBorder(r_idx, t_idx)}
             onClick={() => attemptPlacement(r_idx, t_idx)}
             >
+                
+            {tile}
 
             </div>
             ))
