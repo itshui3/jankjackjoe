@@ -50,9 +50,17 @@ function App() {
         setPhase(turn)
     }
 
+    const reset = () => {
+        setPhase('')
+        setBoard(boardInit)
+    }
+
     const attemptPlacement = (row, tile) => {
         // wrong phase
-        if (!phase || phase === P.p1w || phase === P.p2w) { return }
+        if (!phase || phase === P.p1w || phase === P.p2w) { 
+            reset()
+            return 
+        }
         // tile taken
         if (board[row][tile]) { return }
 
@@ -72,6 +80,8 @@ return (
 <Header 
 handleStart={handleStart}
 phase={phase}
+reset={reset}
+P={P}
 />
 <div className='board_cont'>
     {
