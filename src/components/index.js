@@ -1,8 +1,12 @@
 
 import Header from './Header/Header.js'
+import Circle from './SVG/Circle.js'
+import Cross from './SVG/Cross.js'
 
 export {
-    Header
+    Header,
+    Circle,
+    Cross,
 }
 
 /*

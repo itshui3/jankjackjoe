@@ -4,7 +4,9 @@ import './App.css'
 import React, { useState, useEffect } from 'react'
 
 import {
-    Header
+    Header,
+    Circle,
+    Cross,
 } from './components'
 
 import {
@@ -94,7 +96,17 @@ P={P}
             onClick={() => attemptPlacement(r_idx, t_idx)}
             >
                 
-            {tile}
+            {
+            tile === '1'
+            ?
+            (<Circle />)
+            :
+            tile === '2'
+            ?
+            (<Cross />)
+            :
+            null
+            }
 
             </div>
             ))

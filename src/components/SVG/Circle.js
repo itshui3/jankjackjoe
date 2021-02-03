@@ -1,10 +1,17 @@
 
 import React from 'react'
 
+import circleSVG from './circle.svg';
+
 function Circle() {
 return (
 <>
-    <img src={'./circle.svg'} alt={'svg art'} />
+    <img 
+    style={{
+        transform: 'scale(0.25)',
+        backgroundColor: 'grey'
+    }}
+    src={circleSVG} alt={'svg art'} />
 </> 
 )
 }
