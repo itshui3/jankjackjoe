@@ -1,10 +1,8 @@
 
 import Header from './Header/Header.js'
-import Board from './Board/Board.js'
 
 export {
-    Header,
-    Board
+    Header
 }
 
 /*
