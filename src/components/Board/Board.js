@@ -1,7 +1,7 @@
 
 import React from 'react'
 
-function Header() {
+function Board() {
 return (
 <>
     
@@ -9,4 +9,4 @@ return (
 )
 }
 
-export default Header
+export default Board
