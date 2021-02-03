@@ -1,10 +1,12 @@
 
 import Header from './Header/Header.js'
-import Board from './Board/Board.js'
+import Circle from './SVG/Circle.js'
+import Cross from './SVG/Cross.js'
 
 export {
     Header,
-    Board
+    Circle,
+    Cross,
 }
 
 /*
