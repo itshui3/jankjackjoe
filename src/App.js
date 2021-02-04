@@ -1,130 +1,117 @@
 
-import produce from 'immer'
-import './App.css'
-import React, { useState, useEffect } from 'react'
+
+import './App.css';
+import React, { useReducer, useEffect } from 'react'
 
 import {
-    Header,
-    Circle,
-    Cross,
-} from './components'
+    initGame,
+    ticReducer,
 
-import {
-    determinePhase,
-    boardInit,
-    rightBorder,
-    bottomBorder,
-    P,
-} from './gamePieces'
+    START,
+    PLACE,
+    SET_WINNER,
+    RESET,
 
-/* P
-'' - game not started
-'1' - player 1's turn
-'2' - player 2's turn
-'Player 1' - game ended with player 1 winning
-'Player 2' - game ended with player 2 winning
-*/
+    buildBorder,
+    checkWinner,
+} from './pieces'
 
+const App = () => {
 
-function App() {
+    const [tic, dispatchTic] = useReducer(ticReducer, initGame)
 
-    const [phase, setPhase] = useState('')
-    const [board, setBoard] = useState(boardInit)
-
-    // useEffect(() => {
-    //     // how do I determine if a move was actually made or not? 
-    //     setPhase( determinePhase(board) )
-    // }, [board])
-
-    const buildTileBorder = (r_idx, t_idx) => {
-
-        let borderConfig = {};
-
-        if (r_idx < 2) { borderConfig = {...bottomBorder} }
-        if (t_idx < 2) { borderConfig = {...borderConfig, ...rightBorder }}
-
-        if (Object.keys(borderConfig)) { return borderConfig }
-        else { return {} }
-    }
-
-    const handleStart = () => {
-        const turn = String(Math.ceil( ( Math.random() * 2 ) ))
-        setPhase(turn)
-    }
-
-    const reset = () => {
-        setPhase('')
-        setBoard(boardInit)
-    }
-
-    const attemptPlacement = (row, tile) => {
-        // wrong phase
-        if (!phase || phase === P.p1w || phase === P.p2w) { 
-            reset()
-            return 
+    useEffect(() => {
+        const [win, winner] = checkWinner(tic.board)
+        console.log('win', win, 'winner', winner)
+        if (win) { 
+            dispatchTic({ type: SET_WINNER, payload: winner })
         }
-        // tile taken
-        if (board[row][tile]) { return }
+    }, [tic.board])
 
-        setBoard((board) => {
-            return produce(board, draft => {
-                draft[row][tile] = phase
-                setPhase( determinePhase(draft, phase) )
-            })
-        })
+    const handleGameMechanic = () => {
+        if(tic.state === 0) {
+            // start game
+            dispatchTic({ type: START })
+        }
+
+        if(tic.state > 2) {
+            // reset game
+            dispatchTic({ type: RESET })
+        }
     }
 
 return (
 <>
-<div className='root_wrapper'>
+<div className='content_wrapper'>
 <div className='content_cont'>
 
-<Header 
-handleStart={handleStart}
-phase={phase}
-reset={reset}
-P={P}
-/>
-<div className='board_cont'>
+<div className='header_cont'>
+    <h1 className='header_title'>Tic Tac Toe</h1>
+    <div className='header_info' onClick={handleGameMechanic}>
     {
-    board.map((row, r_idx) => (
-    <div className='row' key={r_idx}>
-        {
-            row.map((tile, t_idx) => (
-            <div className='tile' key={t_idx} 
-            style={buildTileBorder(r_idx, t_idx)}
-            onClick={() => attemptPlacement(r_idx, t_idx)}
-            >
-                
-            {
-            tile === '1'
-            ?
-            (<Circle />)
-            :
-            tile === '2'
-            ?
-            (<Cross />)
-            :
-            null
-            }
-
-            </div>
-            ))
-        }
+        tic.state === 0
+        ?
+        'Click to Start Game'
+        :
+        tic.state === 1
+        ?
+        'Player 1\'s turn'
+        :
+        tic.state === 2
+        ?
+        'Player 2\'s turn'
+        :
+        tic.state === 5
+        ?
+        'Tie'
+        :
+        tic.state === 10
+        ?
+        'Player 1\'s Win'
+        :
+        tic.state === 20
+        ?
+        'Player 2\'s Win'
+        :
+        null
+    }
     </div>
-    ))
+</div>
+
+<div className='board_cont'>
+
+{
+tic.board.map((row, r_idx) => (
+<div className='row' key={r_idx}>
+    {
+        row.map((cell, c_idx) => (
+        <div className='cell' key={c_idx}
+        style={buildBorder(r_idx, c_idx)}
+        onClick={() => dispatchTic({ type: PLACE, payload: {coords: [r_idx, c_idx], player: tic.state} })}>
+        {
+        cell === 1
+        ?
+        'o'
+        :
+        cell === 2
+        ?
+        'x'
+        :
+        null
+        }
+        </div>
+        ))
     }
 </div>
-
-<div className='attribution'>
-<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-</div>
+))
+}
 
 </div>
-</div>
 
+</div>
+</div>
 </>
 )
 }
 
-export default App
+export default App;

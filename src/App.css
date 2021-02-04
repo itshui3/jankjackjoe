@@ -1,5 +1,5 @@
 
-.root_wrapper {
+.content_wrapper {
     width: 100%;
     height: 100vh;
 
@@ -9,39 +9,65 @@
 }
 
 .content_cont {
-    border-radius: 4px;
 
-    width: 80%;
-    height: 90%;
+    width: 85%;
+    height: 95%;
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-evenly;
+}
+
+.header_cont {
+
+    width: 100%;
+    height: 20%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    cursor: pointer;
+    
+}
+
+.header_title {
+
+    text-align: center;
+
+}
+
+.header_info {
+
+    text-align: center;
+
 }
 
 .board_cont {
-    width: 80%;
+
     height: 80%;
+    width: 100%;
 
     display: flex;
     flex-direction: column;
+
     justify-content: center;
     align-items: center;
 }
 
 .row {
-    display: flex;
     width: 100%;
     height: 33%;
+
+    display: flex;
 }
 
-.tile {
-    /* do this with js */
-    /* border: 1px solid black; */
-
+.cell {
     width: 33%;
     height: 100%;
+
+    font-size: 6rem;
 
     display: flex;
     justify-content: center;
