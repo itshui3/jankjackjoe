@@ -15,9 +15,10 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 62.5%;
-  font: inherit;
-  font-family: monospace;
+	font: inherit;
+	font-family: monospace;
 	vertical-align: baseline;
+	color: white;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 

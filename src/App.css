@@ -1,31 +1,57 @@
 
-.root_wrapper {
+
+.app_wrapper {
     width: 100%;
-    height: 100vh;
+    height: 100vh; 
+    
+    background: black;
 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.content_cont {
-    border-radius: 4px;
+.app_cont {
 
-    width: 80%;
+    border: 1px solid white;
+    border-radius: 5px;
     height: 90%;
+    width: 90%;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
 }
 
-.board_cont {
-    width: 80%;
-    height: 80%;
+.header_cont {
+    height: 20%;
+    width: 100%;
+
+    border: 1px solid white;
 
     display: flex;
     flex-direction: column;
+
+    align-items: center;
+    justify-content: space-around;
+
+    cursor: pointer;
+}
+
+.title {
+
+}
+
+.info {
+
+}
+
+.body_cont {
+    height: 80%;
+    width: 100%;
+
+    border: 1px solid white;
+
+    display: flex;
+    flex-direction: column;
+    
     justify-content: center;
     align-items: center;
 }
@@ -34,14 +60,15 @@
     display: flex;
     width: 100%;
     height: 33%;
+
+    border: 1px solid white;
 }
 
 .tile {
-    /* do this with js */
-    /* border: 1px solid black; */
-
     width: 33%;
     height: 100%;
+
+    border: 1px solid white;
 
     display: flex;
     justify-content: center;
