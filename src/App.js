@@ -104,6 +104,8 @@ tic.board.map((row, r_idx) => (
 ))
 }
 </div>
+))
+}
 
 </div>
 </div>   
