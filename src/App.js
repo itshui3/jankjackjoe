@@ -1,6 +1,6 @@
 
 import './App.css'
-import React, { useState, useReducer, useEffect } from 'react'
+import React, { useReducer, useEffect } from 'react'
 
 import {
     initGame,
@@ -9,26 +9,38 @@ import {
 
     Circle,
     Cross,
+
+    checkResult,
 } from './stuff'
 
-const { START, PLACE } = ACTION
+const { START, PLACE, RESULT, RESET } = ACTION
 
 function App() {
 
     const [tic, dispatchTic] = useReducer(ticReducer, initGame)
 
     useEffect(() => {
-        console.log('tic.board', tic.board)
+
+        const validateWin = checkResult(tic.board)
+        if (validateWin) {
+            dispatchTic({ type: RESULT, payload: validateWin })
+        }
+
     }, [tic.board])
 
     const handleTileClick = (r_idx, t_idx) => {
         if (tic.state === 1 || tic.state === 2) {
             dispatchTic({ type: PLACE, payload: [r_idx, t_idx] })
+        } else if (tic.state === 5 || tic.state === 10 || tic.state === 20) {
+            dispatchTic({ type: RESET })
         }
     }
 
     const handleGame = () => {
         if (!tic.state) { dispatchTic({ type: START }) }
+        else if (tic.state === 5 || tic.state === 10 || tic.state === 20) {
+            dispatchTic({ type: RESET })
+        }
     }
 
 return (
@@ -59,6 +71,10 @@ onClick={handleGame}>
         tic.state === 20
         ?
         'Player 2 Win'
+        :
+        tic.state === 5
+        ?
+        'Tie'
         :
         null
     }
