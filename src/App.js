@@ -1,117 +1,123 @@
 
-
-import './App.css';
+import './App.css'
 import React, { useReducer, useEffect } from 'react'
 
 import {
     initGame,
+    ACTION,
     ticReducer,
 
-    START,
-    PLACE,
-    SET_WINNER,
-    RESET,
+    Circle,
+    Cross,
 
-    buildBorder,
-    checkWinner,
-} from './pieces'
+    checkResult,
+} from './stuff'
 
-const App = () => {
+const { START, PLACE, RESULT, RESET } = ACTION
+
+function App() {
 
     const [tic, dispatchTic] = useReducer(ticReducer, initGame)
 
     useEffect(() => {
-        const [win, winner] = checkWinner(tic.board)
-        console.log('win', win, 'winner', winner)
-        if (win) { 
-            dispatchTic({ type: SET_WINNER, payload: winner })
+
+        const validateWin = checkResult(tic.board)
+        if (validateWin) {
+            dispatchTic({ type: RESULT, payload: validateWin })
         }
+
     }, [tic.board])
 
-    const handleGameMechanic = () => {
-        if(tic.state === 0) {
-            // start game
-            dispatchTic({ type: START })
+    const handleTileClick = (r_idx, t_idx) => {
+        if (tic.state === 1 || tic.state === 2) {
+            dispatchTic({ type: PLACE, payload: [r_idx, t_idx] })
+        } else if (tic.state === 5 || tic.state === 10 || tic.state === 20) {
+            dispatchTic({ type: RESET })
         }
+    }
 
-        if(tic.state > 2) {
-            // reset game
+    const handleGame = () => {
+        if (!tic.state) { dispatchTic({ type: START }) }
+        else if (tic.state === 5 || tic.state === 10 || tic.state === 20) {
             dispatchTic({ type: RESET })
         }
     }
 
 return (
 <>
-<div className='content_wrapper'>
-<div className='content_cont'>
+<div className='app_wrapper'>
+<div className='app_cont'>
 
-<div className='header_cont'>
-    <h1 className='header_title'>Tic Tac Toe</h1>
-    <div className='header_info' onClick={handleGameMechanic}>
+<div className='header_cont'
+onClick={handleGame}>
+    <h1 className='title'>Tic Tac Toe</h1>
+    <div className='info'>
     {
-        tic.state === 0
-        ?
+        !tic.state ?
         'Click to Start Game'
         :
         tic.state === 1
         ?
-        'Player 1\'s turn'
+        'Player 1 Turn'
         :
         tic.state === 2
         ?
-        'Player 2\'s turn'
+        'Player 2 Turn'
+        :
+        tic.state === 10
+        ?
+        'Player 1 Win'
+        :
+        tic.state === 20
+        ?
+        'Player 2 Win'
         :
         tic.state === 5
         ?
         'Tie'
-        :
-        tic.state === 10
-        ?
-        'Player 1\'s Win'
-        :
-        tic.state === 20
-        ?
-        'Player 2\'s Win'
         :
         null
     }
     </div>
 </div>
 
-<div className='board_cont'>
-
+<div className='body_cont'>
 {
 tic.board.map((row, r_idx) => (
-<div className='row' key={r_idx}>
+    <div className='row' key={r_idx}>
     {
-        row.map((cell, c_idx) => (
-        <div className='cell' key={c_idx}
-        style={buildBorder(r_idx, c_idx)}
-        onClick={() => dispatchTic({ type: PLACE, payload: {coords: [r_idx, c_idx], player: tic.state} })}>
-        {
-        cell === 1
-        ?
-        'o'
-        :
-        cell === 2
-        ?
-        'x'
-        :
-        null
-        }
-        </div>
+        row.map((tile, t_idx) => (
+            <div className='tile' key={t_idx} 
+            onClick={() => handleTileClick(r_idx, t_idx)}>
+            {
+                tile === 1 ?
+                (<Circle />)
+                : tile === 2 ?
+                (<Cross />)
+                :
+                null
+            }
+            </div>
         ))
     }
+    </div>
+))
+}
 </div>
 ))
 }
 
 </div>
-
-</div>
-</div>
+</div>   
 </>
 )
 }
 
-export default App;
+export default App
+/* tic tac toe - states
+game start - p1 - p2 - p1win - p2win
+0 - 1 - 2 - 10 - 20
+
+
+
+*/
